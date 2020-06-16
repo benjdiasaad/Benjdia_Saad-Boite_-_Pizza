@@ -1,12 +1,23 @@
-@extends('layouts.app')
+<!doctype html>
+<html class="no-js" lang="zxx">
 
-@section('content')
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+</head>
+
+<h1 style="text-align:center">
+   {{ Auth::user()->name }} {{ Auth::user()->prenom}}
+</h1>
+
+
+<BR> 
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Mes commandes</div>
-
+                <div class="card-header" style="font-size:24px;">Mes commandes</div>
+                <BR>
                 <div class="card-body">
                     @if (session('status'))
                         <div class="alert alert-success" role="alert">
@@ -16,19 +27,18 @@
 
                     @foreach (Auth()->user()->orders as $order)
                         <div class="card mb-3">
-                            <div class="card-header">
+                            <div class="card-header" style="text-align:center;font-size:20px;">
                                 Commande passée le {{ Carbon\Carbon::parse($order->payment_created_at)->format('d/m/Y à H:i')}} d'un montant de <strong>{{ getPrice($order->amount) }}</strong>
                             </div>
                             <div class="card-body">
-                                <h6>Liste des produits</h6>
+                                <h3>Liste des produits</h3>
                                 @foreach (unserialize($order->products) as $product)
                                     <div>Nom du produit: {{ $product[0] }}</div>
                                     <div>Prix: {{ getPrice($product[1]) }}</div>
                                     <div>Quantité: {{ $product[2] }}</div>
                                 @endforeach
                                 <br>
-                               <h5> Adresse de livraison: </h5>
-                               {{ Auth::user()->adresse }}
+                               
                             </div>
                           
                         </div>
@@ -39,14 +49,5 @@
     </div>
 </div>
 
-   <BR>
 
-   <form action="{{ route('cadr.invoice') }}">
-                @csrf
-                <button class="btn btn-primary float-right" style="margin-right:307px;" id="submit">
-                    <i class="fa fa-download" aria-hidden="true"></i> Generate PDF 
-                </button>
-    </form>
-
-    <br> <br> <br>                 
-@endsection
+</html>

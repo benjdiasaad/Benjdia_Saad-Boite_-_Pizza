@@ -16,22 +16,18 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-/*
-Route::get('/index', function () {
-    return view('template/index');
-});
-*/
 
-/*
-Route::get('/about', function () {
-    return view('template.about');
-});
+//Route::get('pdf','HomeController@gen');
 
-*/
-/*
-Route::get('/menu', function () {
-    return view('template.menu');
-});*/
+
+Route::get('/invoice', function () {
+    //return view('invoice');
+    $pdf = PDF::loadView('invoice');
+    return $pdf->download('invoice.pdf');
+})->name('cadr.invoice');
+
+
+
 
 Route::get('/ctn', function () {
     return view('template.ctn');
@@ -68,8 +64,4 @@ Route::group(['middleware' => ['auth']], function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-/*
-Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-*/
