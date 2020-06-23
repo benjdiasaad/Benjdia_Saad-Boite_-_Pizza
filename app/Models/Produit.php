@@ -46,7 +46,7 @@ class Produit extends Model
     public function getPrice()
     {
         $price = $this->prix;
-        return number_format($price, 2, ',', ' ') . ' DH';
+        return number_format($price, 2, ',', ' ') . 'DH';
     }
     
 /*

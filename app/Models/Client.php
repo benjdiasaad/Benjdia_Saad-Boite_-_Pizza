@@ -2,16 +2,17 @@
 
 namespace App\Models;
 
-use Backpack\CRUD\app\Models\Traits\CrudTrait;
-use Illuminate\Database\Eloquent\Model;
-/*use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+//use Backpack\CRUD\app\Models\Traits\CrudTrait;
+//use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-*/
 
-class Client extends Model
+
+class Client extends Authenticatable
 {
-    use CrudTrait;
-    //use Notifiable;
+    //use CrudTrait;
+    use Notifiable;
 
     /*
     |--------------------------------------------------------------------------
@@ -19,24 +20,47 @@ class Client extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected $table = 'clients';
+    //protected $table = 'clients';
     // protected $primaryKey = 'id';
     // public $timestamps = false;
-    protected $guarded = ['id'];
+    //protected $guarded = ['id'];
     // protected $fillable = [];
     // protected $hidden = [];
     // protected $dates = [];
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'nom', 'prenom', 'email', 'password','adresse','date_inscr',
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'password', 'remember_token',
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
 
     /*
     |--------------------------------------------------------------------------
     | FUNCTIONS
     |--------------------------------------------------------------------------
     */
-/*
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
-*/
+
     public function Commentaires()
     {
         return $this->hasMany(Commentaire::class);
