@@ -6,6 +6,7 @@ use App\Models\Formule;
 use App\Models\Catproduit;
 use Illuminate\Http\Request;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use App\Models\Boitmsg;
 
 
 use Illuminate\Support\Facades\DB;
@@ -13,14 +14,9 @@ use Illuminate\Support\Facades\DB;
 class ProduitController extends Controller
 {
     
-
-
     public function index(){
 
-    //    dd(Cart::content());
-        /*$product = Produit::all();
-        return view('template.index')->with('product', $product);
-        */
+    
         $pizzaProducts = DB::table('catproduits')
             ->join('produits', 'catproduits.id', '=', 'produits.category_id')
             ->where('catproduits.nomCat', 'Pizza')
@@ -75,5 +71,18 @@ class ProduitController extends Controller
 
           return view('template.search',['products' => $products, 'categorys' => $categorys]);
     }
+
+    public function store(Request $request)
+    {
+
+        $message = \App\Models\Boitmsg::create([
+            'message' => $request->message,
+            'objet' => $request->objet,
+            'client_id' => auth()->user()->id
+        ]);
+    
+        return redirect()->route('template.index')->with('success', 'votre Message bien envoyé');
+}
+
     
 }

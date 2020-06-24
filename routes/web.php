@@ -33,6 +33,7 @@ Route::get('/ctn', function () {
     return view('template.ctn');
 });
 
+
 /*product routes */
 Route::get('/menu',"ProduitController@viewproduct");
 Route::get('/index',"ProduitController@index")->name('template.index');
@@ -61,7 +62,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/merci', 'CheckoutController@thankYou')->name('checkout.thankYou');
 });
 
-Auth::routes();
 
+Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
+//pour l'envoi de message
+Route::post('/message','ProduitController@store')->name('template.message');
